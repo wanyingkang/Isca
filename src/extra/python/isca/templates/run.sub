@@ -1,5 +1,5 @@
 #!/bin/bash -f
-#PBS -A UHAR0008
+#PBS -A ${ACCOUNT}
 #PBS -N testisca
 #PBS -q regular
 #PBS -l select=1:ncpus=16:mpiprocs=16:ompthreads=1
