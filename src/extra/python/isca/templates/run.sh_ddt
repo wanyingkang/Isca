@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Run a single month
+
+rundir={{ rundir }}  # change this if you're rerunning from the output directory
+
+module purge
+source {{ env_source }}
+module list
+
+ulimit -s unlimited
+
+
+cd $rundir
+
+export MALLOC_CHECK_=0
+
+cp {{ execdir }}/{{ executable }} {{ executable }}
+
+echo "Opening ARM FORGE for debugging"
+module load allinea-forge/18.0.2
+ddt --connect -n {{ num_cores }} {{ executable}}

@@ -18,6 +18,7 @@ LD = mpif90 -L/usr/local/intel/lib
 
 FFLAGS_DEBUG = -check -check noarg_temp_created -check nopointer -warn -warn noerrors -debug variable_locations -inline_debug_info -fpe0 -traceback -ftrapuv
 FFLAGS = $(CPPFLAGS) -fpp -stack_temps -safe-cray-ptr -ftz -i_dynamic -assume byterecl -g -i4 -r8  -O2 $(FFLAGS_DEBUG)
+FFLAGS = $(CPPFLAGS) -fltconsistency -stack_temps -safe_cray_ptr -ftz -shared-intel -assume byterecl -g -O0 -i4 -r8 -check -warn -warn noerrors -debug variable_locations -inline_debug_info -traceback
 
 
 

@@ -140,8 +140,8 @@
         real(kind=rb)      :: cfc22_val= 0.                   !                       CFC22
         real(kind=rb)      :: ccl4_val = 0.                   !                       CCL4
 ! some safety boundaries
-        real(kind=rb)      :: h2o_lower_limit = 2.e-7         ! never use smaller than this in radiative scheme
-        real(kind=rb)      :: temp_lower_limit = 100.         ! never go below this in radiative scheme
+        real(kind=rb)      :: h2o_lower_limit = 1.e-7         ! never use smaller than this in radiative scheme
+        real(kind=rb)      :: temp_lower_limit = 50.         ! never go below this in radiative scheme
         real(kind=rb)      :: temp_upper_limit = 370.         ! never go above this in radiative scheme
 ! primary gases: CO2 and H2O
         real(kind=rb)      :: co2ppmv=300.                    ! CO2 ppmv concentration

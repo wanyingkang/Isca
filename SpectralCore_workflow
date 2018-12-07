@@ -1,0 +1,33 @@
+1: Compute the grid tendencies of u, v, T, and tracers due to non-dynamical processes
+
+2: Compute the information that will be needed at the end of the time step for any global corrections to mass, energy, or water vapor.
+
+3: Compute the full and half level values of pressure and log(pressure) from the surface pressure, as well as the virtual temperature and the geopotential
+
+4: Compute the gradient of surface pressure by differentiating in the spectral domain and transforming to the grid.
+
+5: Using these gradients and the grid divergence, compute the vertical mass fluxes, the log(surface pressure) tendency (δ ln ps). and the RT∇ ln ps term in (δu, δv), the u and v tendencies
+
+6: add on the tendencies due to vertical advection to δu, δv, δT
+
+7: Compute (f + ζ)v and −(f + ζ)u on the grid at time t, and add to δu and δv respectively.
+
+8: compute the divergence and curl of (δu, δv) to obtain δζ and δD in the spectral domain, using subroutine vor div from uv grid.
+
+9: add to δT on the grid the horizontal advection term −∇ · (vT). using subroutine horizontal advection, and then convert δT to spectral domain
+
+10: compute the kinetic energy, add to Φ at t on the grid, transform to spectral domain, take the Laplacian, and add −∇2E to the spectral divergence tendency δD;
+
+11: correct (δT, δD, δ ln ps) tendencies to take into account the semiimplicit algorithm, as described above
+
+12: add the (nth-)harmonic damping to δζ, δD, δT in the spectral domain, treating the damping implicitly, as in the barotropic and shallow water models
+
+13: Use leapfrog to generate spectral t + ∆t values of ζ, D, T, ln ps and apply Robert filter to the t values.
+
+14: Generate spectral (u, v) from (ζ, D) at t + ∆t
+
+15: compute grid ζ, D, u, v, T, ln ps (and ps) at t + ∆t
+
+16: Update spectral tracers by first computing horizontal advection, adding on vertical advection, performing hole filling where needed, transferring the tendency back to the spectral domain, performing leapfrog and time filter and transforming t + ∆t values back to the grid to prepare for next step.
+
+17: Update grid tracers by first creating a temporary updated t + ∆t field with all physical tendencies, performing horizontal finite volume advection from t − ∆t to t + ∆t on this field to create yet another updated field, then performing vertical advection on this last field, once again from t − ∆t to t + ∆t, using one of the finite volume options (we do not recommend mixing finite volume horizontal advection and centered vertical advection), then applying the time filter. Grid tracers are never transformed to the spectral domain and back. The advecting velocities are taken from the centered time t.

@@ -241,9 +241,9 @@ integer ::           &
      id_cond_rain,   &   ! rain from condensation
      id_precip,      &   ! rain and snow from condensation and convection
      id_conv_dt_tg,  &   ! temperature tendency from convection
-     id_conv_dt_qg,  &   ! temperature tendency from convection
+     id_conv_dt_qg,  &   ! moisture tendency from convection
      id_cond_dt_tg,  &   ! temperature tendency from condensation
-     id_cond_dt_qg,  &   ! temperature tendency from condensation
+     id_cond_dt_qg,  &   ! moisture tendency from condensation
      id_bucket_depth,      &   ! bucket depth variable for output  - RG Add bucket
      id_bucket_depth_conv, &   ! bucket depth variation induced by convection  - RG Add bucket
      id_bucket_depth_cond, &   ! bucket depth variation induced by condensation  - RG Add bucket
@@ -704,9 +704,9 @@ if(turb) then
    id_diff_dt_vg = register_diag_field(mod_name, 'dt_vg_diffusion',        &
         axes(1:3), Time, 'meridional wind tendency from diffusion','m/s^2')
    id_diff_dt_tg = register_diag_field(mod_name, 'dt_tg_diffusion',        &
-        axes(1:3), Time, 'temperature diffusion tendency','T/s')
+        axes(1:3), Time, 'temperature diffusion tendency','K/s')
    id_diff_dt_qg = register_diag_field(mod_name, 'dt_qg_diffusion',        &
-        axes(1:3), Time, 'moisture diffusion tendency','T/s')
+        axes(1:3), Time, 'moisture diffusion tendency','/s')
 endif
 
    id_rh = register_diag_field ( mod_name, 'rh', &

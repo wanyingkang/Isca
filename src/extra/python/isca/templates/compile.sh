@@ -9,7 +9,7 @@ mkmf={{ srcdir }}/../bin/mkmf                             # path to executable m
 sourcedir={{ srcdir }}                             # path to directory containing model source code
 pathnames={{ path_names }}                      # path to file containing list of source paths
 ppdir={{ srcdir }}/../postprocessing                      # path to directory containing the tool for combining distributed diagnostic output files
-debug={{ run_idb }}                                     # logical to identify if running in debug mode or not
+debug={{ debug }}                                     # logical to identify if running in debug mode or not
 template_debug={{ template_dir }}/mkmf.template.ia64.debug
 #-----------------------------------------------------------------------------------------------------
 execdir={{ execdir }}        # where code is compiled and executable is created
@@ -50,6 +50,12 @@ cd $execdir
 echo $pathnames
 
 # execute mkmf to create makefile
+echo debug=$debug
+if [ $debug == True ]; then
+	template=$template_debug
+fi
+echo using template $template
+
 cppDefs="-Duse_libMPI -Duse_netCDF -Duse_LARGEFILE -DINTERNAL_FILE_NML -DOVERLOAD_C8 {{compile_flags}}"
 $mkmf  -a $sourcedir -t $template -p $executable -c "$cppDefs" $pathnames $sourcedir/shared/include $sourcedir/shared/mpp/include
 

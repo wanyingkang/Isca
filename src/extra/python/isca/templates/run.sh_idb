@@ -9,7 +9,7 @@ module list
 
 ulimit -s unlimited
 
-debug={{ run_ddt }}                                     # logical to identify if running in debug mode or not
+debug={{ run_idb }}                                     # logical to identify if running in debug mode or not
 
 cd $rundir
 
@@ -18,9 +18,8 @@ export MALLOC_CHECK_=0
 cp {{ execdir }}/{{ executable }} {{ executable }}
 
 if [ $debug == True ]; then
-   echo "Opening ARM FORGE for debugging"
-   module load allinea-forge/18.0.2
-   ddt --connect -n {{ num_cores }} {{ executable}}
+   echo "Opening idb for debugging"
+   exec idb -gdb  {{ executable}}
 else
   exec nice -{{nice_score}} mpirun {{mpirun_opts}} -np {{ num_cores }} {{ execdir }}/{{ executable }}
 fi

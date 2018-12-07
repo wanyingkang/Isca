@@ -32,24 +32,16 @@ linnum=`grep -n 'for i' run_isca.py | awk -F: '{print $1}'`
 runend=$((currentrun+1))
 sed -i "${linnum}c \\\tfor i in range(2,${runend}):" run_isca.py >> ${PBS_JOBNAME}.o${SEQUENCE} 
 python run_isca.py $casename $ncores $todo
-runstatus=$?
 
 # submit new one
-if [ $runstatus -eq 0 ]
+if [ ${currentrun} -lt ${totalrun} ]
 then
-	if [ ${currentrun} -lt ${totalrun} ]
-	then
-		SEQUENCE=`echo ${PBS_JOBID} | awk -F. '{print $1}'`
-		currentrun=$((currentrun+eachrun))
-		currentrun=$((${currentrun}<${totalrun}?${currentrun}:${totalrun}))
-		runend=$((currentrun+1))
-		sed -i "${linnum}c \\\tfor i in range(2,${runend}):" run_isca.py >> ${PBS_JOBNAME}.o${SEQUENCE} 
-		linnum_currentrun=`grep -n -m1 'export currentrun=' run.sub | awk -F: '{print $1}'`
-		sed -i "${linnum_currentrun}c export currentrun=${currentrun}" run.sub
-		qsub run.sub
-	else
-		exit $runstatus
-	fi
-else
-	exit $runstatus
+	SEQUENCE=`echo ${PBS_JOBID} | awk -F. '{print $1}'`
+	currentrun=$((currentrun+eachrun))
+	currentrun=$((${currentrun}<${totalrun}?${currentrun}:${totalrun}))
+	runend=$((currentrun+1))
+	sed -i "${linnum}c \\\tfor i in range(2,${runend}):" run_isca.py >> ${PBS_JOBNAME}.o${SEQUENCE} 
+	linnum_currentrun=`grep -n -m1 'export currentrun=' run.sub | awk -F: '{print $1}'`
+	sed -i "${linnum_currentrun}c export currentrun=${currentrun}" run.sub
+	qsub run.sub
 fi

@@ -256,6 +256,7 @@ class CodeBase(Logger):
             'env_source': env,
             'path_names': path_names_str,
             'executable_name': self.executable_name,
+			'debug': debug
         }
 
         self.templates.get_template('compile.sh').stream(**vars).dump(P(self.builddir, 'compile.sh'))

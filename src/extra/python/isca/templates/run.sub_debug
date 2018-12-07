@@ -1,0 +1,35 @@
+#!/bin/bash -f
+#PBS -A _ACCOUNT_
+#PBS -N _CASENAME_
+#PBS -q regular
+#PBS -l select=_NNODES_:ncpus=_NCPUS_:mpiprocs=_NCPUS_:ompthreads=1
+#PBS -l walltime=12:00:00
+#PBS -j oe
+#PBS -S /bin/csh -V
+#PBS -M kangwanying1992@gmail.com
+#PBS -m abe
+#############
+# environment:
+export TMPDIR=/glade/scratch/$USER/temp
+mkdir -p $TMPDIR
+source ${GFDL_BASE}/src/extra/env/${GFDL_ENV}
+
+# passing info
+echo Running on host `hostname`
+echo Time is `date`
+echo Directory is `pwd`
+
+export casename=_CASENAME_
+export ncores=_NCPUS_
+export todo=_TODO_
+export objdir=_OBJDIR_
+export machine=cheyenne
+
+# debug model
+cd $GFDL_WORK/experiment/$casename/run/
+## won't update executable, won't update input.nml and diag_field anyway.
+#cp $objdir/build/isca/isca.x . 
+echo "Opening ARM FORGE for debugging"
+source $GFDL_BASE/src/extra/env/$machine
+module load allinea-forge/18.0.2
+ddt --connect -n $ncores isca.x
