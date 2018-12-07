@@ -202,6 +202,10 @@ atmos_param/socrates/src/trunk/src/aux/dec_disort.finc
 atmos_param/socrates/src/trunk/src/aux/call_disort.finc
 atmos_param/socrates/src/trunk/src/general/batch_error_main.finc
 atmos_param/socrates/src/trunk/src/general/aerosol_component.finc
+atmos_param/socrates/src/trunk/src/radiance_core/def_spherical_geometry.F90 
+atmos_param/socrates/src/trunk/src/radiance_core/spherical_path.F90
+atmos_param/socrates/src/trunk/src/radiance_core/spherical_solar_source.F90
+atmos_param/socrates/src/trunk/src/radiance_core/spherical_trans_coeff.F90
 atmos_param/socrates/src/trunk/src/radiance_core/gauss_angle.F90
 atmos_param/socrates/src/trunk/src/radiance_core/solver_mix_direct.F90
 atmos_param/socrates/src/trunk/src/radiance_core/set_dirn_weights.F90

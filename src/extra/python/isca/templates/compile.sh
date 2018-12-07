@@ -7,7 +7,7 @@ source {{ env_source }}
 # 1. Configuration
 hostname=`hostname`
 compiler=${GFDL_MKMF_TEMPLATE:-ia64}
-template={{ template_dir }}/mkmf.template.${compiler}
+template={{ template_dir }}/mkmf.template.ia64
 mkmf={{ srcdir }}/../bin/mkmf                             # path to executable mkmf
 sourcedir={{ srcdir }}                             # path to directory containing model source code
 pathnames={{ path_names }}                      # path to file containing list of source paths
@@ -20,6 +20,11 @@ executable={{ executable_name }}
 
 netcdf_flags=`nf-config --fflags --flibs`
 
+# 2. Load the necessary tools into the environment
+module purge
+source {{ env_source }}
+source $python_package_lib_path
+module list
 ulimit -s unlimited # Set stack size to unlimited
 export MALLOC_CHECK_=0
 

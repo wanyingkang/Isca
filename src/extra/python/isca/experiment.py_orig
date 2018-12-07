@@ -191,7 +191,7 @@ class Experiment(Logger, EventEmitter):
 
     @destructive
     @useworkdir
-    def run(self, i, restart_file=None, use_restart=True, multi_node=False, num_cores=8, overwrite_data=False, save_run=False, run_ddt=False, nice_score=0, mpirun_opts=''):
+    def run(self, i, restart_file=None, use_restart=True, multi_node=False, num_cores=8, overwrite_data=False, save_run=False, run_idb=False, nice_score=0, mpirun_opts=''):
         """Run the model.0
             `num_cores`: Number of mpi cores to distribute over.
             `restart_file` (optional): A path to a valid restart archive.  If None and `use_restart=True`,
@@ -199,7 +199,6 @@ class Experiment(Logger, EventEmitter):
             `save_run`:  If True, copy the entire working directory over to GFDL_DATA
                          so that the run can rerun without the python script.
                          (This uses a lot of data storage!)
-
         """
 
         self.clear_rundir()
@@ -257,7 +256,7 @@ class Experiment(Logger, EventEmitter):
             'env_source': self.env_source,
             'mpirun_opts': mpirun_opts,
             'num_cores': num_cores,
-            'run_ddt': run_ddt,
+            'run_idb': run_idb,
             'nice_score': nice_score
         }
 
@@ -306,13 +305,10 @@ class Experiment(Logger, EventEmitter):
             combinetool = sh.Command(codebase_combine_script)
             for file in self.diag_table.files:
                 netcdf_file = '%s.nc' % file
-                netcdf_fileout = '%s_%04d.nc' % (file, i)
                 filebase = P(self.rundir, netcdf_file)
                 combinetool(self.codebase.builddir, filebase)
                 # copy the combined netcdf file into the data archive directory
-				# wykang: copy all combined file to datadir with runid attached to the file name, good for nco command
-                #sh.cp(filebase, P(outdir, netcdf_file))
-                sh.cp(filebase, P(self.datadir, netcdf_fileout))
+                sh.cp(filebase, P(outdir, netcdf_file))
                 # remove all netcdf fragments from the run directory
                 sh.rm(glob.glob(filebase+'*'))
                 self.log.debug('%s combined and copied to data directory' % netcdf_file)
