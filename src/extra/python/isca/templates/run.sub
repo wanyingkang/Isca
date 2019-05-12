@@ -28,9 +28,10 @@ export totalrun=_TOTALRUN_
 
 # running model
 SEQUENCE=`echo ${PBS_JOBID} | awk -F. '{print $1}'`
-linnum=`grep -n 'for i' run_isca.py | awk -F: '{print $1}'`
+linnum=`grep -n 'for i in ' run_isca.py | awk -F: '{print $1}'`
 runend=$((currentrun+1))
-sed -i "${linnum}c \\\tfor i in range(2,${runend}):" run_isca.py >> ${PBS_JOBNAME}.o${SEQUENCE} 
+runstart=$((currentrun+1-eachrun))
+sed -i "${linnum}c \\\tfor i in range(${runstart},${runend}):" run_isca.py >> ${PBS_JOBNAME}.o${SEQUENCE} 
 python run_isca.py $casename $ncores $todo
 runstatus=$?
 
@@ -43,7 +44,8 @@ then
 		currentrun=$((currentrun+eachrun))
 		currentrun=$((${currentrun}<${totalrun}?${currentrun}:${totalrun}))
 		runend=$((currentrun+1))
-		sed -i "${linnum}c \\\tfor i in range(2,${runend}):" run_isca.py >> ${PBS_JOBNAME}.o${SEQUENCE} 
+		runstart=$((currentrun+1-eachrun))
+		sed -i "${linnum}c \\\tfor i in range(${runstart},${runend}):" run_isca.py >> ${PBS_JOBNAME}.o${SEQUENCE} 
 		linnum_currentrun=`grep -n -m1 'export currentrun=' run.sub | awk -F: '{print $1}'`
 		sed -i "${linnum_currentrun}c export currentrun=${currentrun}" run.sub
 		qsub run.sub

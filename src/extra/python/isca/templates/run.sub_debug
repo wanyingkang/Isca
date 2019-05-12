@@ -19,6 +19,7 @@ echo Running on host `hostname`
 echo Time is `date`
 echo Directory is `pwd`
 
+export casename0=_CASENAME0_
 export casename=_CASENAME_
 export ncores=_NCPUS_
 export todo=_TODO_
@@ -26,10 +27,10 @@ export objdir=_OBJDIR_
 export machine=cheyenne
 
 # debug model
-cd $GFDL_WORK/experiment/$casename/run/
+cd $GFDL_WORK/experiment/${casename0}${casename}/run/
 ## won't update executable, won't update input.nml and diag_field anyway.
 #cp $objdir/build/isca/isca.x . 
 echo "Opening ARM FORGE for debugging"
 source $GFDL_BASE/src/extra/env/$machine
-module load allinea-forge/18.0.2
+module load arm-forge/18.1.2
 ddt --connect -n $ncores isca.x

@@ -943,7 +943,7 @@ call surface_flux(                                                          &
                p_full(:,:,num_levels,current),                              &
    z_full(:,:,num_levels,current)-z_surf(:,:),                              &
              p_half(:,:,num_levels+1,current),                              &
-                                  t_surf(:,:),                              &
+                                  t_surf(:,:),                              & ! is intent(in)
                                   t_surf(:,:),                              &
                                   q_surf(:,:),                              & ! is intent(inout)
                                        bucket,                              &     ! RG Add bucket
